@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  play_db:
+    image: mysql:8.0.19
+    volumes:
+      - "./.mysql-data/db:/var/lib/mysql"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: play_data
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  palywith.oauth:
+    image: ${DOCKER_REGISTRY-}palywithoauth
+    build:
+      context: .
+      dockerfile: PalyWith.Oauth/Dockerfile
+
+  palywith.api:
+    image: ${DOCKER_REGISTRY-}palywithapi
+    build:
+      context: .
+      dockerfile: PalyWith.Api/Dockerfile

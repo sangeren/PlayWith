@@ -25,3 +25,4 @@ bld/
 [Ll]og/*
 .vs/
 /PalyWith.Oauth/bin/Debug/netcoreapp3.1
+/obj/Docker

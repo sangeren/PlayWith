@@ -1,6 +1,6 @@
 using System;
 
-namespace PalyWith.Api
+namespace PlayWith.Api
 {
     public class WeatherForecast
     {

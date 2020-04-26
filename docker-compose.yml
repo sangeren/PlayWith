@@ -13,14 +13,14 @@ services:
       MYSQL_DATABASE: play_data
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-  palywith.oauth:
-    image: ${DOCKER_REGISTRY-}palywithoauth
+  playwith.oauth:
+    image: ${DOCKER_REGISTRY-}playwithoauth
     build:
       context: .
-      dockerfile: PalyWith.Oauth/Dockerfile
+      dockerfile: PlayWith.Oauth/Dockerfile
 
-  palywith.api:
-    image: ${DOCKER_REGISTRY-}palywithapi
+  playwith.api:
+    image: ${DOCKER_REGISTRY-}playwithapi
     build:
       context: .
-      dockerfile: PalyWith.Api/Dockerfile
+      dockerfile: PlayWith.Api/Dockerfile

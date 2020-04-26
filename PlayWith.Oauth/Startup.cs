@@ -11,10 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenIddict.Abstractions;
-using PalyWith.Oauth.Models;
-using PalyWith.Oauth.Services;
+using PlayWith.Oauth.Models;
+using PlayWith.Oauth.Services;
 
-namespace PalyWith.Oauth
+namespace PlayWith.Oauth
 {
     public class Startup
     {

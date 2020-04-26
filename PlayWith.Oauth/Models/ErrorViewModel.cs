@@ -1,6 +1,6 @@
 using System;
 
-namespace PalyWith.Oauth.Models
+namespace PlayWith.Oauth.Models
 {
     public class ErrorViewModel
     {

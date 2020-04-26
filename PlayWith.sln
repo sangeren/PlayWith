@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PalyWith.Api", "PalyWith.Api\PalyWith.Api.csproj", "{4452A7D3-D68D-4627-BF90-4B6176037D94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayWith.Api", "PlayWith.Api\PlayWith.Api.csproj", "{4452A7D3-D68D-4627-BF90-4B6176037D94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PalyWith.Oauth", "PalyWith.Oauth\PalyWith.Oauth.csproj", "{E916FB66-2AAC-46AA-9C3D-2632F2D0D142}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayWith.Oauth", "PlayWith.Oauth\PlayWith.Oauth.csproj", "{E916FB66-2AAC-46AA-9C3D-2632F2D0D142}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2674A320-28C3-4FCF-BFA1-50EC47D399FC}"
 EndProject

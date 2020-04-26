@@ -6,7 +6,7 @@
     <ProjectGuid>2674a320-28c3-4fcf-bfa1-50ec47d399fc</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>palywith.oauth</DockerServiceName>
+    <DockerServiceName>playwith.oauth</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".env" />

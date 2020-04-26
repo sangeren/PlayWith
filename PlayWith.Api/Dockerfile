@@ -6,16 +6,16 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["PalyWith.Oauth/PalyWith.Oauth.csproj", "PalyWith.Oauth/"]
-RUN dotnet restore "PalyWith.Oauth/PalyWith.Oauth.csproj"
+COPY ["PlayWith.Api/PlayWith.Api.csproj", "PlayWith.Api/"]
+RUN dotnet restore "PlayWith.Api/PlayWith.Api.csproj"
 COPY . .
-WORKDIR "/src/PalyWith.Oauth"
-RUN dotnet build "PalyWith.Oauth.csproj" -c Release -o /app/build
+WORKDIR "/src/PlayWith.Api"
+RUN dotnet build "PlayWith.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "PalyWith.Oauth.csproj" -c Release -o /app/publish
+RUN dotnet publish "PlayWith.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "PalyWith.Oauth.dll"]
+ENTRYPOINT ["dotnet", "PlayWith.Api.dll"]

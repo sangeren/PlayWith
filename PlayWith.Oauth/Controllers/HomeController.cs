@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PalyWith.Oauth.Models;
+using PlayWith.Oauth.Models;
 
-namespace PalyWith.Oauth.Controllers
+namespace PlayWith.Oauth.Controllers
 {
     public class HomeController : Controller
     {

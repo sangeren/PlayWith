@@ -1,13 +1,13 @@
 version: '3.4'
 
 services:
-  palywith.oauth:
+  playwith.oauth:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
 
-  palywith.api:
+  playwith.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

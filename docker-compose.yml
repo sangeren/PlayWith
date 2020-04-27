@@ -26,3 +26,12 @@ services:
     build:
       context: .
       dockerfile: PlayWith.Api/Dockerfile
+
+  watchtower:
+    image: v2tec/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    #command: watchtower nginx nginx-gen pma --interval 30
+    restart: unless-stopped

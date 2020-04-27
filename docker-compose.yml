@@ -29,7 +29,7 @@ services:
 
   watchtower:
     image: v2tec/watchtower
-    container_name: watchtower
+    #container_name: watchtower
     #environment:
       #REPO_USER:username
       #REPO_PASS:password 
@@ -37,4 +37,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/config.json
     #command: watchtower nginx nginx-gen pma --interval 30
-    restart: unless-stopped

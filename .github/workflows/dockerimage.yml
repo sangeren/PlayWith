@@ -18,6 +18,8 @@ jobs:
     - name: login aliyun docker registry
       run: docker login -u=${{ secrets.ALI_DOCKER_REGISTRY_USER }} -p=${{ secrets.ALI_DOCKER_REGISTRY_SECRET }} registry.cn-shenzhen.aliyuncs.com
     
-    - name: build and push
-      run: docker-compose build & docker-compose push
+    - name: build image
+      run: docker-compose build
       
+    - name:  push image
+      run: docker-compose push

@@ -1,10 +1,10 @@
 version: '3.4'
 
 services:
-  play_db:
+  mysql.data:
     image: mysql:8.0.19
     volumes:
-      - "./.mysql-data/db:/var/lib/mysql"
+      - "/var/data/.mysql-data/db:/var/lib/mysql"
     restart: always
     ports:
       - 3306:3306
@@ -14,13 +14,15 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
   playwith.oauth:
-    image: ${DOCKER_REGISTRY-}playwithoauth
+    image: ${DOCKER_REGISTRY-}playwithoauth:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: PlayWith.Oauth/Dockerfile
+    depends_on:
+      - mysql.data
 
   playwith.api:
-    image: ${DOCKER_REGISTRY-}playwithapi
+    image: ${DOCKER_REGISTRY-}playwithapi:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: PlayWith.Api/Dockerfile

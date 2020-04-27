@@ -30,6 +30,9 @@ services:
   watchtower:
     image: v2tec/watchtower
     container_name: watchtower
+    environment:
+      #REPO_USER:username
+      #REPO_PASS:password 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/config.json

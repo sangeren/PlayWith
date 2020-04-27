@@ -13,14 +13,13 @@ jobs:
 
     steps:
     - name: checkout code
-      run: lsb_release -a
-     # uses: actions/checkout@v2  
+      uses: actions/checkout@v2  
     
-    #- name: login aliyun docker registry
-     # run: docker login -u=${{ secrets.ALI_DOCKER_REGISTRY_USER }} -p=${{ secrets.ALI_DOCKER_REGISTRY_SECRET }} registry.cn-shenzhen.aliyuncs.com
+    - name: login aliyun docker registry
+      run: docker login -u=${{ secrets.ALI_DOCKER_REGISTRY_USER }} -p=${{ secrets.ALI_DOCKER_REGISTRY_SECRET }} registry.cn-shenzhen.aliyuncs.com
     
-    #- name: build image
-     # run: docker-compose build
+    - name: build image
+      run: docker-compose build
       
-    #- name:  push image
-    #  run: docker-compose push
+    - name:  push image
+      run: docker-compose push

@@ -30,7 +30,7 @@ services:
   watchtower:
     image: v2tec/watchtower
     container_name: watchtower
-    environment:
+    #environment:
       #REPO_USER:username
       #REPO_PASS:password 
     volumes:

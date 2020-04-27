@@ -36,7 +36,7 @@ jobs:
         # Path to the build context
         #path: 'PlayWith.Oauth'
         # Path to the Dockerfile (Default is '{path}/Dockerfile')
-        #dockerfile: '/PlayWith.Oauth/Dockerfile'
+        dockerfile: 'PlayWith.Oauth/Dockerfile'
         # Sets the target stage to build
         #target: ''
         # Always attempt to pull a newer version of the image

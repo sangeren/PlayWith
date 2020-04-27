@@ -1,0 +1,56 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2  
+    - run: pwd & ls
+      
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1.1.0
+      with:
+        # Username used to log in to a Docker registry. If not set then no login will occur
+        username: ${{ secrets.ALI_DOCKER_REGISTRY_USER }}
+        # Password or personal access token used to log in to a Docker registry. If not set then no login will occur
+        password: ${{ secrets.ALI_DOCKER_REGISTRY_SECRET }}
+        # Server address of Docker registry. If not set then will default to Docker Hub
+        registry: "registry.cn-shenzhen.aliyuncs.com"
+        # Docker repository to tag the image with
+        repository:  ${{ secrets.ALI_DOCKER_REGISTRY_REPOSITORY }}
+        # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
+        #tags: # optional
+        # Automatically tags the built image with the git reference as per the readme
+        #tag_with_ref: # optional
+        # Automatically tags the built image with the git short SHA as per the readme
+        #tag_with_sha: # optional
+        # Path to the build context
+        #path: 'PlayWith.Oauth'
+        # Path to the Dockerfile (Default is '{path}/Dockerfile')
+        dockerfile: 'PlayWith.Oauth/Dockerfile'
+        # Sets the target stage to build
+        #target: ''
+        # Always attempt to pull a newer version of the image
+        #always_pull: # optional
+        # Comma-delimited list of build-time variables
+        #build_args: # optional
+        # Comma-delimited list of images to consider as cache sources
+        #cache_froms: # optional
+        # Comma-delimited list of labels to add to the built image
+        #labels: # optional
+        # Adds labels with git repository information to the built image
+        #add_git_labels: # optional
+        # Whether to push the image
+        #push: # optional, default is true
+    #- uses: actions/checkout@v2
+    #- name: Build the Docker image
+     # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)

@@ -31,10 +31,10 @@ services:
   watchtower:
     image: containrrr/watchtower
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /root/.docker/config.json:/config.json
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/root/.docker/config.json:/config.json"
      environment:
-       - HOME=/
+       - "HOME=/"
       # REPO_USER : ${REPO_USER}
       # REPO_PASS : ${REPO_PASS}
     command: --interval 60

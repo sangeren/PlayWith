@@ -12,9 +12,3 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
-  
-  watchtower:
-    environment:
-      - a=1
-      #REPO_USER:username
-      #REPO_PASS:password 

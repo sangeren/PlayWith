@@ -28,7 +28,7 @@ services:
       dockerfile: PlayWith.Api/Dockerfile
 
   watchtower:
-    image: v2tec/watchtower
+    image: containrrr/watchtower
     #container_name: watchtower
     #environment:
       #REPO_USER:username

@@ -30,7 +30,7 @@ namespace PlayWith.Api
                 options.DefaultScheme = OAuthIntrospectionDefaults.AuthenticationScheme;
             }).AddOAuthIntrospection(options =>
             {
-                options.Authority = new Uri(Configuration.GetSection("HostUrl").Value);
+                options.Authority = new Uri(Configuration.GetSection("OauthUrl").Value);
                 options.Audiences.Add("resource-server-1");
                 options.ClientId = "resource-server-1";
                 options.ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342";
@@ -54,7 +54,7 @@ namespace PlayWith.Api
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins(Configuration.GetSection("OauthUrl").Value);
+                builder.WithOrigins(Configuration.GetSection("HostUrl").Value);
                 builder.WithMethods("GET");
                 builder.WithHeaders("Authorization");
             });

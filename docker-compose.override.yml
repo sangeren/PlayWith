@@ -3,12 +3,14 @@ version: '3.4'
 services:
   playwith.oauth:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
-      - "80"
+      - "7301:80"   
 
   playwith.api:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://0.0.0.0:80
     ports:
-      - "80"
+      - "7401:80"   

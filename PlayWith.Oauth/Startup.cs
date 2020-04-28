@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenIddict.Abstractions;
+using OpenIddict.Core;
+using OpenIddict.EntityFrameworkCore.Models;
 using PlayWith.Oauth.Models;
 using PlayWith.Oauth.Services;
 
@@ -134,7 +136,19 @@ namespace PlayWith.Oauth
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
+
+            app.UseCors(builder =>
+            {
+#if DEBUG
+                builder.WithOrigins("http://192.168.1.102:7301");
+#else
+                builder.WithOrigins("http://192.168.1.102:7301");
+                //builder.WithOrigins("https://oauth.playwithc.com");
+#endif
+                builder.WithMethods("GET");
+                builder.WithHeaders("Authorization");
+            });
 
             app.UseRouting();
 
@@ -146,6 +160,109 @@ namespace PlayWith.Oauth
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Seed the database with the sample applications.
+            // Note: in a real world application, this step should be part of a setup script.
+            InitializeAsync(app.ApplicationServices).GetAwaiter().GetResult();
+        }
+
+        private async Task InitializeAsync(IServiceProvider services)
+        {
+            // Create a new service scope to ensure the database context is correctly disposed when this methods returns.
+            using (var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                await context.Database.EnsureCreatedAsync();
+
+                await CreateApplicationsAsync();
+                await CreateScopesAsync();
+
+                async Task CreateApplicationsAsync()
+                {
+                    var manager = scope.ServiceProvider.GetRequiredService<OpenIddictApplicationManager<OpenIddictApplication>>();
+
+                    if (await manager.FindByClientIdAsync("aurelia") == null)
+                    {
+                        var descriptor = new OpenIddictApplicationDescriptor
+                        {
+                            ClientId = "aurelia",
+                            DisplayName = "Aurelia client application",
+                            PostLogoutRedirectUris = { new Uri("http://localhost:9000/signout-oidc") },
+                            RedirectUris = { new Uri("http://localhost:9000/signin-oidc") },
+                            Permissions =
+                            {
+                                OpenIddictConstants.Permissions.Endpoints.Authorization,
+                                OpenIddictConstants.Permissions.Endpoints.Logout,
+                                OpenIddictConstants.Permissions.GrantTypes.Implicit,
+                                OpenIddictConstants.Permissions.Scopes.Email,
+                                OpenIddictConstants.Permissions.Scopes.Profile,
+                                OpenIddictConstants.Permissions.Scopes.Roles,
+                                OpenIddictConstants.Permissions.Prefixes.Scope + "api1",
+                                OpenIddictConstants.Permissions.Prefixes.Scope + "api2"
+                            }
+                        };
+
+                        await manager.CreateAsync(descriptor);
+                    }
+
+                    if (await manager.FindByClientIdAsync("resource-server-1") == null)
+                    {
+                        var descriptor = new OpenIddictApplicationDescriptor
+                        {
+                            ClientId = "resource-server-1",
+                            ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
+                            Permissions =
+                            {
+                                OpenIddictConstants.Permissions.Endpoints.Introspection
+                            }
+                        };
+
+                        await manager.CreateAsync(descriptor);
+                    }
+
+                    if (await manager.FindByClientIdAsync("resource-server-2") == null)
+                    {
+                        var descriptor = new OpenIddictApplicationDescriptor
+                        {
+                            ClientId = "resource-server-2",
+                            ClientSecret = "C744604A-CD05-4092-9CF8-ECB7DC3499A2",
+                            Permissions =
+                            {
+                                OpenIddictConstants.Permissions.Endpoints.Introspection
+                            }
+                        };
+
+                        await manager.CreateAsync(descriptor);
+                    }
+                }
+
+                async Task CreateScopesAsync()
+                {
+                    var manager = scope.ServiceProvider.GetRequiredService<OpenIddictScopeManager<OpenIddictScope>>();
+
+                    if (await manager.FindByNameAsync("api1") == null)
+                    {
+                        var descriptor = new OpenIddictScopeDescriptor
+                        {
+                            Name = "api1",
+                            Resources = { "resource-server-1" }
+                        };
+
+                        await manager.CreateAsync(descriptor);
+                    }
+
+                    if (await manager.FindByNameAsync("api2") == null)
+                    {
+                        var descriptor = new OpenIddictScopeDescriptor
+                        {
+                            Name = "api2",
+                            Resources = { "resource-server-2" }
+                        };
+
+                        await manager.CreateAsync(descriptor);
+                    }
+                }
+            }
         }
     }
 }

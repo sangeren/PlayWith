@@ -13,6 +13,7 @@ services:
       MYSQL_DATABASE: play_data
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
   playwith.oauth:
     image: ${DOCKER_REGISTRY-}playwithoauth:${PLATFORM:-linux}-${TAG:-latest}
     build:
@@ -33,6 +34,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/config.json
      environment:
-       REPO_USER : ${REPO_USER}
-       REPO_PASS : ${REPO_PASS}
+       - HOME=/
+      # REPO_USER : ${REPO_USER}
+      # REPO_PASS : ${REPO_PASS}
     command: --interval 60

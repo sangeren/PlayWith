@@ -33,7 +33,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/root/.docker/config.json:/config.json"
-    environment:
-      REPO_USER : ${REPO_USER}
-      REPO_PASS : ${REPO_PASS}
+    #environment:
+    #  REPO_USER : ${REPO_USER}
+    #  REPO_PASS : ${REPO_PASS}
     command: --interval 60

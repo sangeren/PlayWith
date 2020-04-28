@@ -17,7 +17,7 @@ jobs:
       run: docker login -u=${{ secrets.ALI_DOCKER_REGISTRY_USER }} -p=${{ secrets.ALI_DOCKER_REGISTRY_SECRET }} registry.cn-shenzhen.aliyuncs.com
     
     - name: build image
-      run: docker-compose build
+      run: docker-compose -f docker-compose.yml  -f docker-compose.override.yml build
       
     - name:  push image
       run: docker-compose push

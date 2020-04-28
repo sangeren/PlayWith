@@ -49,6 +49,10 @@ namespace PlayWith.Oauth
             // which saves you from doing the mapping in your authorization controller.
             services.Configure<IdentityOptions>(options =>
             {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
                 options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
                 options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
@@ -141,7 +145,7 @@ namespace PlayWith.Oauth
             app.UseCors(builder =>
             {
 #if DEBUG
-                builder.WithOrigins("http://192.168.1.102:7301");
+                builder.WithOrigins("http://localhost:3301");
 #else
                 builder.WithOrigins("http://192.168.1.102:7301");
                 //builder.WithOrigins("https://oauth.playwithc.com");
@@ -187,8 +191,8 @@ namespace PlayWith.Oauth
                         {
                             ClientId = "aurelia",
                             DisplayName = "Aurelia client application",
-                            PostLogoutRedirectUris = { new Uri("http://localhost:9000/signout-oidc") },
-                            RedirectUris = { new Uri("http://localhost:9000/signin-oidc") },
+                            PostLogoutRedirectUris = { new Uri("http://localhost:3301/signout-oidc") },
+                            RedirectUris = { new Uri("http://localhost:3301/signin-oidc") },
                             Permissions =
                             {
                                 OpenIddictConstants.Permissions.Endpoints.Authorization,

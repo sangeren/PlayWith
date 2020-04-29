@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using PlayWith.Oauth.ViewModels;
 using System;
@@ -15,7 +16,7 @@ namespace PlayWith.Oauth.Controllers
         {
             // If the error was not caused by an invalid
             // OIDC request, display a generic error page.
-            var response = HttpContext.GetOpenIdConnectResponse();
+            var response = HttpContext.GetOpenIddictServerResponse();
             if (response == null)
             {
                 return View(new ErrorViewModel());

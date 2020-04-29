@@ -30,6 +30,9 @@ namespace PlayWith.Oauth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            services.AddMvc();
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 // Configure the context to use Microsoft SQL Server.
@@ -42,7 +45,8 @@ namespace PlayWith.Oauth
             });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),
@@ -58,70 +62,64 @@ namespace PlayWith.Oauth
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
+
+
             services.AddOpenIddict()
+            // Register the OpenIddict core components.
+            .AddCore(options =>
+            {
+                // Configure OpenIddict to use the Entity Framework Core stores and models.
+                options.UseEntityFrameworkCore()
+                   .UseDbContext<ApplicationDbContext>();
+            })
+            // Register the OpenIddict server components.
+            .AddServer(options =>
+            {
+                // Enable the authorization, logout, token and userinfo endpoints.
+                options.SetAuthorizationEndpointUris("/connect/authorize")
+                       //.SetDeviceEndpointUris("/connect/device")
+                       .SetLogoutEndpointUris("/connect/logout")
+                       .SetIntrospectionEndpointUris("/connect/introspect")
+                       .SetUserinfoEndpointUris("/api/userinfo")
+                       //.SetTokenEndpointUris("/connect/token")
+                       //.SetUserinfoEndpointUris("/connect/userinfo")
+                       //.SetVerificationEndpointUris("/connect/verify")
+                       ;
 
-                // Register the OpenIddict core services.
-                .AddCore(options =>
-                {
-                    // Register the Entity Framework stores and models.
-                    options.UseEntityFrameworkCore()
-                           .UseDbContext<ApplicationDbContext>();
-                })
+                // Mark the "email", "profile" and "roles" scopes as supported scopes.
+                options.RegisterScopes(OpenIdConnectConstants.Scopes.Email,
+                                       OpenIdConnectConstants.Scopes.Profile,
+                                       OpenIddictConstants.Scopes.Roles);
 
-                // Register the OpenIddict server handler.
-                .AddServer(options =>
-                {
-                    // Enable the authorization, logout, userinfo, and introspection endpoints.
-                    options.EnableAuthorizationEndpoint("/connect/authorize")
-                           .EnableLogoutEndpoint("/connect/logout")
-                           .EnableIntrospectionEndpoint("/connect/introspect")
-                           .EnableUserinfoEndpoint("/api/userinfo");
 
-                    // Mark the "email", "profile" and "roles" scopes as supported scopes.
-                    options.RegisterScopes(OpenIdConnectConstants.Scopes.Email,
-                                           OpenIdConnectConstants.Scopes.Profile,
-                                           OpenIddictConstants.Scopes.Roles);
+                // Note: the sample only uses the implicit code flow but you can enable
+                // the other flows if you need to support implicit, password or client credentials.
+                options.AllowImplicitFlow();
 
-                    // Note: the sample only uses the implicit code flow but you can enable
-                    // the other flows if you need to support implicit, password or client credentials.
-                    options.AllowImplicitFlow();
+                // Accept requests sent by unknown clients (i.e that don't send a client_id).
+                // When this option is not used, a client registration must be
+                // created for each client using IOpenIddictApplicationManager.
+                //options.AcceptAnonymousClients();
 
-                    // During development, you can disable the HTTPS requirement.
-                    options.DisableHttpsRequirement();
+                // Register the signing and encryption credentials.
+                options.AddDevelopmentEncryptionCertificate()
+                  .AddDevelopmentSigningCertificate();
 
-                    // Register a new ephemeral key, that is discarded when the application
-                    // shuts down. Tokens signed using this key are automatically invalidated.
-                    // This method should only be used during development.
-                    options.AddEphemeralSigningKey();
+                // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
+                options.UseAspNetCore()
+                  .EnableTokenEndpointPassthrough()
+                  .DisableTransportSecurityRequirement(); // During development, you can disable the HTTPS requirement.
+            })
 
-                    // On production, using a X.509 certificate stored in the machine store is recommended.
-                    // You can generate a self-signed certificate using Pluralsight's self-cert utility:
-                    // https://s3.amazonaws.com/pluralsight-free/keith-brown/samples/SelfCert.zip
-                    //
-                    // options.AddSigningCertificate("7D2A741FE34CC2C7369237A5F2078988E17A6A75");
-                    //
-                    // Alternatively, you can also store the certificate as an embedded .pfx resource
-                    // directly in this assembly or in a file published alongside this project:
-                    //
-                    // options.AddSigningCertificate(
-                    //     assembly: typeof(Startup).GetTypeInfo().Assembly,
-                    //     resource: "AuthorizationServer.Certificate.pfx",
-                    //     password: "OpenIddict");
+            // Register the OpenIddict validation components.
+            .AddValidation(options =>
+            {
+                // Import the configuration from the local OpenIddict server instance.
+                options.UseLocalServer();
 
-                    // Note: to use JWT access tokens instead of the default
-                    // encrypted format, the following line is required:
-                    //
-                    // options.UseJsonWebTokens();
-                })
-
-                // Register the OpenIddict validation handler.
-                // Note: the OpenIddict validation handler is only compatible with the
-                // default token format or with reference tokens and cannot be used with
-                // JWT tokens. For JWT tokens, use the Microsoft JWT bearer handler.
-                .AddValidation();
-
-            services.AddCors();
-            services.AddMvc();
+                // Register the ASP.NET Core host.
+                options.UseAspNetCore();
+            });
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -156,6 +154,7 @@ namespace PlayWith.Oauth
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

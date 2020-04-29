@@ -7,7 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["PlayWith.Oauth/PlayWith.Oauth.csproj", "PlayWith.Oauth/"]
-RUN dotnet restore "PlayWith.Oauth/PlayWith.Oauth.csproj"
+RUN dotnet restore "PlayWith.Oauth/PlayWith.Oauth.csproj" -s https://api.nuget.org/v3/index.json -s https://www.myget.org/F/openiddict/api/v3/index.json
 COPY . .
 WORKDIR "/src/PlayWith.Oauth"
 RUN dotnet build "PlayWith.Oauth.csproj" -c Release -o /app/build

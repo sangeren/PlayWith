@@ -41,6 +41,7 @@ namespace PlayWith.Api
                 // options.RoleClaimType = "custom_role_claim";
             });
 
+            services.AddDistributedMemoryCache();
             services.AddControllers();
         }
 

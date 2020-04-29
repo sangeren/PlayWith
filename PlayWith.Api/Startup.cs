@@ -34,7 +34,7 @@ namespace PlayWith.Api
                 options.Authority = new Uri(Configuration.GetSection("OauthUrl").Value);
                 options.Audiences.Add("resource-server-1");
                 options.ClientId = "resource-server-1";
-                options.ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342pp";
+                options.ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342";
                 options.RequireHttpsMetadata = false;
 
                 // Note: you can override the default name and role claims:

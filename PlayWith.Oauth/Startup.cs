@@ -145,8 +145,7 @@ namespace PlayWith.Oauth
 #if DEBUG
                 builder.WithOrigins("http://localhost:3301");
 #else
-                builder.WithOrigins("http://192.168.1.102:7301");
-                //builder.WithOrigins("https://oauth.playwithc.com");
+                builder.WithOrigins("https://oauth.playwithc.com");
 #endif
                 builder.WithMethods("GET");
                 builder.WithHeaders("Authorization");

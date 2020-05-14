@@ -6,13 +6,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - VIRTUAL_HOST=oauth.playwithc.com
-#    ports:
-#      - "7301:80"   
+    ports:
+      - "7301:80"   
 
   playwith.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://0.0.0.0:80
       - VIRTUAL_HOST=api.playwithc.com
-#    ports:
-#      - "7401:80"   
+    ports:
+      - "7401:80"   

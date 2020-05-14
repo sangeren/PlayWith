@@ -1,14 +1,14 @@
 version: '3.4'
 
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /usr/soft/certs:/etc/nginx/certs
+#  nginx-proxy:
+#    image: jwilder/nginx-proxy
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - /var/run/docker.sock:/tmp/docker.sock:ro
+#      - /usr/soft/certs:/etc/nginx/certs
 
   mysql.data:
     image: mysql:8.0.19

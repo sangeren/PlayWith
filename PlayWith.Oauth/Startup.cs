@@ -95,6 +95,7 @@ namespace PlayWith.Oauth
                 // Note: the sample only uses the implicit code flow but you can enable
                 // the other flows if you need to support implicit, password or client credentials.
                 options.AllowImplicitFlow();
+                options.AllowAuthorizationCodeFlow();
 
                 // Accept requests sent by unknown clients (i.e that don't send a client_id).
                 // When this option is not used, a client registration must be

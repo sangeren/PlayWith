@@ -77,13 +77,13 @@ namespace PlayWith.Oauth
             {
                 // Enable the authorization, logout, token and userinfo endpoints.
                 options.SetAuthorizationEndpointUris("/connect/authorize")
-                       //.SetDeviceEndpointUris("/connect/device")
+                       .SetDeviceEndpointUris("/connect/device")
                        .SetLogoutEndpointUris("/connect/logout")
                        .SetIntrospectionEndpointUris("/connect/introspect")
                        .SetUserinfoEndpointUris("/api/userinfo")
-                       //.SetTokenEndpointUris("/connect/token")
-                       //.SetUserinfoEndpointUris("/connect/userinfo")
-                       //.SetVerificationEndpointUris("/connect/verify")
+                       .SetTokenEndpointUris("/connect/token")
+                       .SetUserinfoEndpointUris("/connect/userinfo")
+                       .SetVerificationEndpointUris("/connect/verify")
                        ;
 
                 // Mark the "email", "profile" and "roles" scopes as supported scopes.
